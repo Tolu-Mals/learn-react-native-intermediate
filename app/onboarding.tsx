@@ -1,7 +1,8 @@
 import { useUserStore } from "@/store/userStore";
 import { theme } from "@/theme";
-import { StyleSheet, View, Button } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useRouter } from "expo-router";
+import { PlantlyButton } from "@/components/PlantlyButton";
 
 export default function Onboarding() {
   const router = useRouter();
@@ -12,7 +13,7 @@ export default function Onboarding() {
   };
   return (
     <View style={styles.container}>
-      <Button title="Let me in" onPress={handlePress} />
+      <PlantlyButton title="Let me in" onPress={handlePress} />
     </View>
   );
 }
