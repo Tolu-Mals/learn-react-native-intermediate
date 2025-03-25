@@ -1,4 +1,11 @@
-import { Text, StyleSheet, TextInput, Alert, View } from "react-native";
+import {
+  Text,
+  StyleSheet,
+  TextInput,
+  Alert,
+  TouchableOpacity,
+  Platform,
+} from "react-native";
 import { theme } from "@/theme";
 import { PlantlyButton } from "@/components/PlantlyButton";
 import { useState } from "react";
@@ -6,6 +13,7 @@ import { PlantlyImage } from "@/components/PlantlyImage";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 import { usePlantStore } from "@/store/plantStore";
 import { useRouter } from "expo-router";
+import * as ImagePicker from "expo-image-picker";
 
 export default function NewScreen() {
   const [name, setName] = useState<string>();
@@ -36,15 +44,32 @@ export default function NewScreen() {
     router.replace("/");
   };
 
+  const handleChooseImage = async () => {
+    if (Platform.OS === "web") return;
+
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: "images",
+      allowsEditing: true,
+      aspect: [1, 1],
+      quality: 1,
+    });
+
+    console.log("result: ", result);
+  };
+
   return (
     <KeyboardAwareScrollView
       style={styles.container}
       contentContainerStyle={styles.contentContainer}
       keyboardShouldPersistTaps="handled"
     >
-      <View style={styles.centered}>
+      <TouchableOpacity
+        style={styles.centered}
+        activeOpacity={0.8}
+        onPress={handleChooseImage}
+      >
         <PlantlyImage />
-      </View>
+      </TouchableOpacity>
       <Text style={styles.label}>Name</Text>
       <TextInput
         value={name}
