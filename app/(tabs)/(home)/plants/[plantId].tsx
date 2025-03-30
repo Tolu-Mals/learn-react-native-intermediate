@@ -14,6 +14,7 @@ export default function PlantDetails() {
   const waterPlant = usePlantStore((store) => store.waterPlant);
   const removePlant = usePlantStore((store) => store.removePlant);
   const params = useLocalSearchParams();
+  console.log("params: ", params);
   const plantId = params.plantId;
   const plant = usePlantStore((state) =>
     state.plants.find((plant) => String(plant.id) === plantId),
@@ -25,6 +26,14 @@ export default function PlantDetails() {
       title: plant?.name,
     });
   }, [plant?.name, navigation]);
+
+  useEffect(() => {
+    if (params.action === "water") {
+      if (typeof plantId === "string") {
+        waterPlant(plantId);
+      }
+    }
+  }, []);
 
   const handleWaterPlant = () => {
     if (typeof plantId === "string") {
